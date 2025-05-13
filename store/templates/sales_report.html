@@ -1,0 +1,209 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Report - Smart Computers</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sales_report.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="nav__header">
+            <div class="nav__logo">
+                <a href="{% url 'homepage' %}" class="logo">Smart Computers</a>
+            </div>
+            <div class="nav__menu__btn" id="menu-btn">
+                <span>☰</span>
+            </div>
+        </div>
+        <ul class="nav__links" id="nav-links">
+            <li><a href="{% url 'index' %}">Shop</a></li>
+            {% if request.session.customer %}
+                <li><a href="{% url 'profile' %}">Profile</a></li>
+                <li><a href="{% url 'cart' %}">Cart</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                <li><a href="{% url 'contacts' %}">Contact us</a></li>
+            
+            {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <!-- Sales Report Section -->
+    <section class="section__container report__container">
+        <div class="report__header">
+            <h1>Sales Report</h1>
+            <p>Summary of sales from {{ start_date }} to {{ end_date }}</p>
+            <a href="{% url 'sales_report_pdf' %}" class="download__btn">Download Report</a>
+        </div>
+
+        <div class="report__card">
+            <h2>Overview</h2>
+            <div class="overview__stats">
+                <div class="stat">
+                    <span class="stat__label">Total Revenue</span>
+                    <span class="stat__value">KES {{ total_revenue|floatformat:2 }}</span>
+                </div>
+                <div class="stat">
+                    <span class="stat__label">Total Orders</span>
+                    <span class="stat__value">{{ total_orders }}</span>
+                </div>
+            </div>
+            {% if total_orders == 0 %}
+                <p class="no-data">No completed sales recorded in this period.</p>
+            {% endif %}
+        </div>
+
+        <div class="report__card">
+            <h2>Top Products</h2>
+            {% if top_products %}
+                <table class="report__table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity Sold</th>
+                            <th>Revenue (KES)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in top_products %}
+                        <tr>
+                            <td>{{ product.product__name }}</td>
+                            <td>{{ product.total_quantity }}</td>
+                            <td>{{ product.total_revenue|floatformat:2 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="no-data">No products sold in this period.</p>
+            {% endif %}
+        </div>
+
+        {% if top_products %}
+        <div class="report__card chart__card">
+            <h2>Sales by Product (Quantity Sold)</h2>
+            <canvas id="salesChart"></canvas>
+        </div>
+        {% endif %}
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="section__container footer__container">
+            <div class="footer__col">
+                <div class="footer__logo">
+                    <a href="{% url 'homepage' %}" class="logo">Smart Computers</a>
+                </div>
+                <p>
+                    Shop online for premium computer accessories at unbeatable prices with fast delivery.
+                </p>
+                <ul class="footer__socials">
+                    <li><a href="#"><i class="ri-facebook-fill"></i></a></li>
+                    <li><a href="#"><i class="ri-twitter-fill"></i></a></li>
+                    <li><a href="#"><i class="ri-instagram-fill"></i></a></li>
+                    <li><a href="#"><i class="ri-linkedin-fill"></i></a></li>
+                </ul>
+            </div>
+            <div class="footer__col">
+                <h4>Services</h4>
+                <ul class="footer__links">
+                    <li><a href="#">Delivery</a></li>
+                    <li><a href="#">Discounts</a></li>
+                    <li><a href="#">Warranty</a></li>
+                </ul>
+            </div>
+            <div class="footer__col">
+                <h4>Resources</h4>
+                <ul class="footer__links">
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="{% url 'contacts' %}">Contact Support</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms</a></li>
+                </ul>
+            </div>
+            <div class="footer__col">
+                <h4>Support</h4>
+                <ul class="footer__links">
+                    <li>
+                        <a href="tel:+254797469560"><i class="ri-phone-fill"></i> Call Us</a>
+                    </li>
+                    <li>
+                        <a href="mailto:anthonynyasente@gmail.com"><i class="ri-mail-fill"></i> Email Us</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer__bar">
+            Copyright © 2025 Anthony Nyasente Nyanumba. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- JavaScript for Mobile Menu Toggle and Chart -->
+    <script>
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const navLinks = document.getElementById('nav-links');
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
+        });
+
+        // Chart.js for Sales by Product (Pie Chart)
+        {% if top_products %}
+        const ctx = document.getElementById('salesChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: [{% for product in top_products %}'{{ product.product__name|escapejs }}',{% endfor %}],
+                datasets: [{
+                    label: 'Quantity Sold',
+                    data: [{% for product in top_products %}{{ product.total_quantity }},{% endfor %}],
+                    backgroundColor: [
+                        '#3498db',
+                        '#e74c3c',
+                        '#2ecc71',
+                        '#f1c40f',
+                        '#9b59b6'
+                    ],
+                    borderColor: '#ffffff',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                aspectRatio: 1, // Square aspect ratio for compact pie chart
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            font: {
+                                size: 14,
+                                family: 'Roboto'
+                            },
+                            color: '#2c3e50'
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const value = context.raw;
+                                return `${label}: ${value} units`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        {% endif %}
+    </script>
+</body>
+</html>

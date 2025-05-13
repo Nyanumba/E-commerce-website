@@ -1,0 +1,199 @@
+/* store/static/css/sales_report.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background-color: #f5f7fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+.section__container.report__container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.report__header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.report__header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.report__header p {
+    font-size: 1.1rem;
+    color: #7f8c8d;
+}
+
+.download__btn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.download__btn:hover {
+    background-color: #2980b9;
+}
+
+.report__card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.chart__card {
+    max-width: 400px; /* Reduced for compact chart */
+    margin: 0 auto;
+    padding: 15px; /* Reduced padding */
+}
+
+.report__card h2 {
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.overview__stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.stat {
+    flex: 1;
+    min-width: 200px;
+    background: #ecf0f1;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.stat__label {
+    display: block;
+    font-size: 1rem;
+    color: #7f8c8d;
+    margin-bottom: 5px;
+}
+
+.stat__value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.no-data {
+    color: #e74c3c;
+    font-weight: 500;
+    font-size: 1.1rem;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.report__table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.report__table th,
+.report__table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ecf0f1;
+}
+
+.report__table th {
+    background-color: #3498db;
+    color: white;
+    font-weight: 500;
+}
+
+.report__table tr:hover {
+    background-color: #f9f9f9;
+    transition: background-color 0.2s ease;
+}
+
+.report__table td {
+    font-size: 1rem;
+    color: #34495e;
+}
+
+/* Chart Styling */
+canvas#salesChart {
+    max-width: 100%;
+    max-height: 300px; /* Constrain height for compact chart */
+    width: 100%;
+    height: auto;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .report__header h1 {
+        font-size: 2rem;
+    }
+
+    .report__card {
+        padding: 15px;
+    }
+
+    .chart__card {
+        max-width: 100%;
+        padding: 10px;
+    }
+
+    canvas#salesChart {
+        max-height: 250px; /* Smaller on mobile */
+    }
+
+    .overview__stats {
+        flex-direction: column;
+    }
+
+    .stat {
+        min-width: 100%;
+    }
+
+    .report__table th,
+    .report__table td {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .report__header p {
+        font-size: 1rem;
+    }
+
+    .download__btn {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+
+    .report__card h2 {
+        font-size: 1.5rem;
+    }
+
+    canvas#salesChart {
+        max-height: 200px; /* Even smaller for small screens */
+    }
+}

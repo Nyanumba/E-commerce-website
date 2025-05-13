@@ -1,0 +1,203 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Smart Computers</title>
+    <link rel="stylesheet" href="{% static 'css/contacts.css' %}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="nav__header">
+            <div class="nav__logo">
+                <a href="{% url 'homepage' %}" class="logo">Smart Computers</a>
+            </div>
+            <div class="nav__menu__btn" id="menu-btn">
+                <span>☰</span>
+            </div>
+        </div>
+        <ul class="nav__links" id="nav-links">
+            <li><a href="{% url 'index' %}">Shop</a></li>
+            <li><a href="{% url 'profile' %}">Profile</a></li>
+                <li><a href="{% url 'cart' %}">Cart</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                
+            {% if request.session.customer %}
+                
+            {% else %}
+            <!---- <li><a href="{% url 'login' %}">Login</a></li> -->    
+            {% endif %}
+        </ul>
+    </nav>
+
+    <!-- Contact Section -->
+    <section class="section__container contact__container">
+        <h1 class="section__header">Contact Us</h1>
+
+        <!-- Stakeholders -->
+        <div class="stakeholders">
+            <h2 class="section__subheader">Our Team</h2>
+            <div class="stakeholder__list">
+                <div class="stakeholder">
+                    <img src="{% static 'images/profile-icon.png' %}" alt="Profile Icon" class="profile-icon">
+                    <div class="stakeholder__info">
+                        <h3>Anthony Nyasente - Managing Director</h3>
+                        <p>Email: <a href="mailto:anthonynyasente@gmail.com">anthonynyasente@gmail.com</a></p>
+                        <p class="heading"><i class="fas fa-phone"></i><br><br><a href="tel:+254797469560">Phone</a></p>
+                    </div>
+                </div>
+                <div class="stakeholder">
+                    <img src="{% static 'images/profile-icon.png' %}" alt="Profile Icon" class="profile-icon">
+                    <div class="stakeholder__info">
+                        <h3>Ibrahim Kasika - Inventory Manager</h3>
+                        <p>Email: <a href="mailto:ibrahimkasika@gmail.com">ibrahimkasika@gmail.com</a></p>
+                        <p class="heading"><i class="fas fa-phone"></i><br><br><a href="tel:+254758088742">Phone</a></p>
+                    </div>
+                </div>
+                <div class="stakeholder">
+                    <img src="{% static 'images/profile-icon.png' %}" alt="Profile Icon" class="profile-icon">
+                    <div class="stakeholder__info">
+                        <h3>Abigail Nguli - Customer Support</h3>
+                        <p>Email: <a href="mailto:abigailnguli@gmail.com">abigailnguli@gmail.com</a></p>
+                        <p class="heading"><i class="fas fa-phone"></i><br><br><a href="tel:+254780814321">Phone</a></p>
+                    </div>
+                </div>
+                <div class="stakeholder">
+                    <img src="{% static 'images/profile-icon.png' %}" alt="Profile Icon" class="profile-icon">
+                    <div class="stakeholder__info">
+                        <h3>Lourdes Nganga - Sales Lead</h3>
+                        <p>Email: <a href="mailto:lourdesnganga@gmail.com">lourdesnganga@gmail.com</a></p>
+                        <p class="heading"><i class="fas fa-phone"></i><br><br><a href="tel:+254780814321">Phone</a></p>
+                    </div>
+                </div>
+                <div class="stakeholder">
+                    <img src="{% static 'images/profile-icon.png' %}" alt="Profile Icon" class="profile-icon">
+                    <div class="stakeholder__info">
+                        <h3>Evans Njoroge - Accountant</h3>
+                        <p>Email: <a href="mailto:evansnjoroge@gmail.com">evansnjoroge@gmail.com</a></p>
+                        <p class="heading"><i class="fas fa-phone"></i><br><br><a href="tel:+254724255971">Phone</a></p>
+                    </div>
+                </div>
+                <div class="stakeholder">
+                    <img src="{% static 'images/profile-icon.png' %}" alt="Profile Icon" class="profile-icon">
+                    <div class="stakeholder__info">
+                        <h3>Shawn Peter - Social Manager</h3>
+                        <p>Email: <a href="mailto:shawnpetermusebe@gmail.com">shawnpetermusebe@gmail.com</a></p>
+                        <p class="heading"><i class="fas fa-phone"></i><br><br><a href="tel:+254790815321">Phone</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map -->
+        <div class="map__container">
+            <h2 class="section__subheader">Our Location</h2>
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.8166653505386!2d36.82072887496567!3d-1.2838941987039025!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f10d671900001%3A0x90f5e610e51dce23!2sKimathi%20House!5e0!3m2!1sen!2ske!4v1743526430173!5m2!1sen!2ske" 
+                width="600" 
+                height="450"
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="contact__form__container">
+            <h2 class="section__subheader">Send Us a Message</h2>
+            {% if success %}
+                <p class="success">Your message has been sent successfully!</p>
+            {% endif %}
+            {% if error %}
+                <p class="error">{{ error }}</p>
+            {% endif %}
+            <form method="POST" action="{% url 'contacts' %}" class="contact__form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="email">Your Email:</label>
+                    <input type="email" id="email" name="email" required placeholder="e.g., yourname@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="message">Your Message:</label>
+                    <textarea id="message" name="message" rows="5" required placeholder="Type your message here..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- JavaScript for Mobile Menu Toggle -->
+    <script>
+        const menuBtn = document.getElementById('menu-btn');
+        const navLinks = document.getElementById('nav-links');
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
+        });
+    </script>
+    <footer class="footer" id="contact">
+        <div class="section__container footer__container">
+            <div class="footer__col">
+                <div class="footer__logo">
+                    <a href="{% url 'homepage' %}" class="logo">Smart Computers</a>
+                </div>
+                <p>
+                    Shop online for premium computer accessories at unbeatable prices with fast delivery.
+                </p>
+                <ul class="footer__socials">
+                    <li>
+                        <a href="#"><i class="ri-facebook-fill"></i></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="ri-twitter-fill"></i></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="ri-instagram-fill"></i></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="ri-linkedin-fill"></i></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer__col">
+                <h4>Services</h4>
+                <ul class="footer__links">
+                    <li><a href="#">Delivery</a></li>
+                    <li><a href="#">Discounts</a></li>
+                    <li><a href="#">Warranty</a></li>
+                </ul>
+            </div>
+            <div class="footer__col">
+                <h4>Resources</h4>
+                <ul class="footer__links">
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="{% url 'contacts' %}">Contact Support</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms</a></li>
+                </ul>
+            </div>
+            <div class="footer__col">
+                <h4>Support</h4>
+                <ul class="footer__links">
+                    <li>
+                        <a href="tel:+254797469560">
+                            <i class="ri-phone-fill"></i> Call Us
+                        </a>
+                    </li>
+                    <li>
+                        <a href="mailto:anthonynyasente@gmail.com">
+                            <i class="ri-mail-fill"></i> Email Us
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer__bar">
+            Copyright © 2025 Anthony Nyasente Nyanumba. All rights reserved.
+        </div>
+    </footer>
+</body>
+</html>

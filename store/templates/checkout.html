@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Smart Computers</title>
+    <link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="nav__header">
+            <div class="nav__logo">
+                <a href="{% url 'homepage' %}" class="logo">Smart Computers</a>
+            </div>
+            <div class="nav__menu__btn" id="menu-btn">
+                <span>☰</span> <!-- Hamburger icon -->
+            </div>
+        </div>
+        <ul class="nav__links" id="nav-links">
+            <li><a href="{% url 'index' %}">Products</a></li>
+            <li><a href="{% url 'profile' %}">Profile</a></li>
+                <li><a href="{% url 'cart' %}">Cart</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                <li><a href="{% url 'contacts' %}">Contact us</a></li>
+            {% if request.session.customer %}
+                
+            {% else %}
+              <!--<li><a href="{% url 'login' %}">Login</a></li> -->  
+            {% endif %}
+        </ul>
+    </nav>
+
+    <!-- Checkout Section -->
+    <section class="section__container checkout__container">
+        <h1 class="section__header">Checkout</h1>
+
+        {% if cart_items %}
+            <h2 class="section__subheader">Order Summary</h2>
+            <div class="summary__table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>Stock Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart_items %}
+                        <tr>
+                            <td>{{ item.product.name }}</td>
+                            <td>KES {{ item.product.price|floatformat:2 }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>KES {{ item.total|floatformat:2 }}</td>
+                            <td>
+                                {% if item.product.quantity >= item.quantity %}
+                                    In Stock ({{ item.product.quantity }} left)
+                                {% else %}
+                                    Out of Stock ({{ item.product.quantity }} left)
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="totals">
+                <p>Subtotal: KES {{ subtotal|floatformat:2 }}</p>
+                <p>Discount (5%): -KES {{ discount|floatformat:2 }}</p>
+                <p>Delivery Fee: KES {{ delivery_fee|floatformat:2 }}</p>
+                <h3>Total Price: KES {{ total_price|floatformat:2 }}</h3>
+            </div>
+
+            {% if error %}
+                <p class="error">{{ error }}</p>
+            {% endif %}
+
+            <form method="POST" action="{% url 'checkout' %}" class="checkout__form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="destination">Delivery Destination:</label>
+                    <input type="text" id="destination" name="destination" required>
+                </div>
+                <div class="form-group">
+                    <label for="mpesa_number">Phone Number:</label>
+                    <input type="text" id="mpesa_number" name="mpesa_number" 
+                           value="{{ customer.phone|default:'' }}" 
+                           required placeholder="e.g., 254712345678">
+                </div>
+                <button type="submit" class="submit-btn">Complete Checkout</button>
+            </form>
+
+            {% if customer %}
+            <p class="customer-info">Customer: {{ customer.first_name }} {{ customer.last_name }}</p>
+            {% endif %}
+        {% else %}
+            <p class="section__description">Your cart is empty.</p>
+            <a href="{% url 'homepage' %}" class="back__link">Continue Shopping</a>
+        {% endif %}
+    </section>
+
+    <!-- JavaScript for Mobile Menu Toggle -->
+    <script>
+        const menuBtn = document.getElementById('menu-btn');
+        const navLinks = document.getElementById('nav-links');
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
+        });
+    </script>
+    <footer class="footer" id="contact">
+        <div class="section__container footer__container">
+            <div class="footer__col">
+                <div class="footer__logo">
+                    <a href="{% url 'homepage' %}" class="logo">Smart Computers</a>
+                </div>
+                <p>
+                    Shop online for premium computer accessories at unbeatable prices with fast delivery.
+                </p>
+                <ul class="footer__socials">
+                    <li>
+                        <a href="#"><i class="ri-facebook-fill"></i></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="ri-twitter-fill"></i></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="ri-instagram-fill"></i></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="ri-linkedin-fill"></i></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer__col">
+                <h4>Services</h4>
+                <ul class="footer__links">
+                    <li><a href="#">Delivery</a></li>
+                    <li><a href="#">Discounts</a></li>
+                    <li><a href="#">Warranty</a></li>
+                </ul>
+            </div>
+            <div class="footer__col">
+                <h4>Resources</h4>
+                <ul class="footer__links">
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="{% url 'contacts' %}">Contact Support</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms</a></li>
+                </ul>
+            </div>
+            <div class="footer__col">
+                <h4>Support</h4>
+                <ul class="footer__links">
+                    <li>
+                        <a href="tel:+254797469560">
+                            <i class="ri-phone-fill"></i> Call Us
+                        </a>
+                    </li>
+                    <li>
+                        <a href="mailto:anthonynyasente@gmail.com">
+                            <i class="ri-mail-fill"></i> Email Us
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer__bar">
+            Copyright © 2025 Anthony Nyasente Nyanumba. All rights reserved.
+        </div>
+    </footer>
+</body>
+</html>

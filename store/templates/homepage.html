@@ -1,0 +1,181 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+  />
+  
+
+<title>Smart Computers</title>
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body>
+  <nav>
+    <div class="nav_header">
+    <div class="nav_logo">
+      <a href="#" class ="logo"> Smart Computers</a>
+    </div>  
+    <div class="nav__menu__btn" id="menu-btn">
+      <i class="ri-menu-line"></i>
+    </div>
+  </div>
+  <ul class="nav__links" id="nav-links">
+    <li><a href="{% url 'homepage' %}">Home</a> </li>
+    <li><a href="{% url 'signup' %}">Signup</a> </li>
+    <li><a href="{% url 'login' %}">Login</a> </li>
+    <li><a href="{% url 'contacts' %}">Contacts us</a> </li>
+    <li><a href="{% url 'sales_report' %}">View Sales Report</a> </li>
+
+  </ul>
+    </div>
+    
+  </nav>
+  <header class="section__container header__container" id="home">
+    <div class="header__image">
+      <img src="{% static 'images/store.jpg' %}" alt="Store Image"/>
+    </div>
+    <div class="header__content">
+      <div>
+        <h1>Shop Online With Us</h1>
+        <p>
+          Browse through our products and get them at affordable
+          prices
+        </p>
+      </div>
+    </div>
+  </header>
+  <section class="section__container deals__container">
+    <div class="deals__card">
+      <h2 class="section__header">Hot 🔥 deals for you</h2>
+      <p>Online shopping for retail sales direct to consumers</p>
+    </div>
+    <div class="deals__card">
+      <span><i class="ri-cash-line"></i></span>
+      <h4> Enjoy Discounts</h4>
+      <p>Get a 5% discount on your first 5 orders with us!</p>
+    </div>
+    <div class="deals__card">
+      <span><i class="ri-calendar-schedule-line"></i></span>
+      <h4>30 day terms</h4>
+      <p>
+        Take advantage of our 30-day payment terms, completely interest-free!
+      </p>
+    </div>
+    <div class="deals__card">
+      <span><i class="ri-e-bike-2-line"></i></span>
+      <h4>Delivery</h4>
+      <p>
+        Enjoy delivery of your products to your preffered pickup point!
+      </p>
+    </div>
+  </section>
+    
+  <section class="section__container product__container" id="product">
+    <h2 class="section__header">Featured Products</h2>
+    <div class="product__grid">
+      <div class="product__card">
+        <h4>Lenovo Thinkpad Laptops</h4>
+        <p>KES 25000</p>
+        <img src="{% static 'images/lenovo.jpeg' %}" alt="product">
+      </div>
+      <div class="product__card">
+        <h4>HP All-in-One-PC</h4>
+        <p>KES 35500</p>
+        <img src="{% static 'images/hp all in one.jpg' %}" alt="product" />
+      </div>
+      <div class="product__card">
+        <h4>Wireless Mouse</h4>
+        <p>KES 855</p>
+        <img src="{% static 'images/mouse.jpeg' %}" alt="product" />
+      </div>
+      <div class="product__card">
+        <h4>Toshiba Keyboards</h4>
+        <p>KES 3500</p>
+        <img src="{% static 'images/toshiba.jpeg' %}" alt="product" />
+      </div>
+      <div class="product__card">
+        <h4>Apple Monitors</h4>
+        <p>KES 45800</p>
+        <img src="{% static 'images/apple monitor.png' %}" alt="product" />
+      </div>
+      <div class="product__card">
+        <h4> Hp CPU</h4>
+        <p>KES 16500</p>
+        <img src="{% static 'images/cpu.jpeg' %}" alt="product" />
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer" id="contact">
+    <div class="section__container footer__container">
+        <div class="footer__col">
+            <div class="footer__logo">
+                <a href="{% url 'homepage' %}" class="logo">Smart Computers</a>
+            </div>
+            <p>
+                Shop online for premium computer accessories at unbeatable prices with fast delivery.
+            </p>
+            <ul class="footer__socials">
+                <li>
+                    <a href="#"><i class="ri-facebook-fill"></i></a>
+                </li>
+                <li>
+                    <a href="#"><i class="ri-twitter-fill"></i></a>
+                </li>
+                <li>
+                    <a href="#"><i class="ri-instagram-fill"></i></a>
+                </li>
+                <li>
+                    <a href="#"><i class="ri-linkedin-fill"></i></a>
+                </li>
+            </ul>
+        </div>
+        <div class="footer__col">
+            <h4>Services</h4>
+            <ul class="footer__links">
+                <li><a href="#">Delivery</a></li>
+                <li><a href="#">Discounts</a></li>
+                <li><a href="#">Warranty</a></li>
+            </ul>
+        </div>
+        <div class="footer__col">
+            <h4>Resources</h4>
+            <ul class="footer__links">
+                <li><a href="#">Pricing</a></li>
+                <li><a href="#">FAQs</a></li>
+                <li><a href="{% url 'contacts' %}">Contact Support</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms</a></li>
+            </ul>
+        </div>
+        <div class="footer__col">
+            <h4>Support</h4>
+            <ul class="footer__links">
+                <li>
+                    <a href="tel:+254797469560">
+                        <i class="ri-phone-fill"></i> Call Us
+                    </a>
+                </li>
+                <li>
+                    <a href="mailto:anthonynyasente@gmail.com">
+                        <i class="ri-mail-fill"></i> Email Us
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer__bar">
+        Copyright © 2025 Anthony Nyasente Nyanumba. All rights reserved.
+    </div>
+</footer>
+    
+</body>
+</html>
